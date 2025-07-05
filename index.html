@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Терминал оплаты</title>
+    <meta name="description" content="Оплата товаров и услуг через удобный терминал. Быстро, безопасно и просто.">
+    <meta name="keywords" content="оплата, терминал, онлайн, сервис, платежи, касса">
+    <meta name="author" content="pivocode">
+    <meta property="og:title" content="Терминал оплаты">
+    <meta property="og:description" content="Удобный онлайн-терминал для оплаты товаров и услуг.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .city-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .city-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 206, 84, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 121, 198, 0.3) 0%, transparent 50%);
+            animation: gradientMove 20s ease infinite;
+        }
+        
+        @keyframes gradientMove {
+            0%, 100% { 
+                background: 
+                    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(255, 206, 84, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 80%, rgba(255, 121, 198, 0.3) 0%, transparent 50%);
+            }
+            50% { 
+                background: 
+                    radial-gradient(circle at 80% 20%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 20% 80%, rgba(255, 206, 84, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 60% 30%, rgba(255, 121, 198, 0.3) 0%, transparent 50%);
+            }
+        }
+        
+        .building {
+            position: absolute;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 4px 4px 0 0;
+            animation: buildingFloat 6s ease-in-out infinite;
+        }
+        
+        .building::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 20px,
+                    rgba(255,255,255,0.1) 20px,
+                    rgba(255,255,255,0.1) 22px
+                );
+        }
+        
+        .building:nth-child(1) { left: 5%; width: 60px; height: 200px; animation-delay: 0s; }
+        .building:nth-child(2) { left: 15%; width: 80px; height: 150px; animation-delay: 1s; }
+        .building:nth-child(3) { left: 25%; width: 70px; height: 180px; animation-delay: 2s; }
+        .building:nth-child(4) { left: 70%; width: 90px; height: 160px; animation-delay: 3s; }
+        .building:nth-child(5) { left: 80%; width: 65px; height: 140px; animation-delay: 4s; }
+        .building:nth-child(6) { left: 90%; width: 75px; height: 170px; animation-delay: 5s; }
+        
+        @keyframes buildingFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: particleFloat 15s linear infinite;
+        }
+        
+        @keyframes particleFloat {
+            0% { 
+                transform: translateY(100vh) translateX(0px);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { 
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        .terminal {
+            backdrop-filter: blur(20px);
+            background: rgba(31, 41, 55, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: terminalGlow 4s ease-in-out infinite alternate;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .terminal::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .terminal::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .terminal::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 4px;
+        }
+        
+        .terminal::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.7);
+        }
+        
+        @keyframes terminalGlow {
+            0% { 
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+            }
+            100% { 
+                box-shadow: 0 0 30px rgba(59, 130, 246, 0.4), 0 0 60px rgba(59, 130, 246, 0.1);
+            }
+        }
+        
+        .payment-method {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .payment-method::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .payment-method:hover::before {
+            left: 100%;
+        }
+        
+        .payment-method:hover {
+            transform: translateY(-4px) scale(1.05);
+        }
+        
+        .payment-method.selected {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        .pulse-ring {
+            animation: pulseRing 2s infinite;
+        }
+        
+        @keyframes pulseRing {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 0;
+            }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+        }
+        
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="city-bg min-h-screen flex items-center justify-center p-4">
+
+    <div class="building"></div>
+    <div class="building"></div>
+    <div class="building"></div>
+    <div class="building"></div>
+    <div class="building"></div>
+    <div class="building"></div>
+
+    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+    <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+    <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
+    <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
+    <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
+    <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
+    <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
+    
+    <div class="w-full max-w-2xl relative z-10">
+
+        <div class="terminal rounded-3xl p-8 shadow-2xl" style="min-height: 600px; max-height: 90vh; overflow-y: auto;">
+
+            <div class="mb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-white">КАССА №1</h1>
+                            <p class="text-gray-400 text-sm">Терминал оплаты</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="flex items-center space-x-2 text-gray-400 text-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span id="current-time"></span>
+                        </div>
+                        <div class="text-gray-500 text-xs" id="current-date"></div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-700 rounded-2xl p-6 mb-6">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <div class="flex items-center space-x-2 mb-2">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
+                                </svg>
+                                <span class="text-gray-400 text-sm">ID платежа</span>
+                            </div>
+                            <div class="text-white font-mono text-sm bg-gray-800 rounded-lg p-2" id="payment-id">
+                                Генерация...
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-gray-400 text-sm mb-2">Сумма к оплате</div>
+                            <div class="text-3xl font-bold text-green-400 glow-text">
+                                2,450.00 ₽
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-white mb-4">
+                    Выберите способ оплаты
+                </h2>
+                <div class="grid grid-cols-4 gap-3" id="payment-methods">
+
+                </div>
+            </div>
+
+            <div id="payment-details" class="hidden slide-in bg-gray-700 rounded-2xl p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-3">
+                        <div id="selected-icon" class="w-10 h-10 rounded-lg flex items-center justify-center">
+                        </div>
+                        <div>
+                            <div id="selected-name" class="text-white font-semibold"></div>
+                            <div id="selected-desc" class="text-gray-400 text-sm"></div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-gray-400 text-sm">Комиссия</div>
+                        <div id="selected-commission" class="text-green-400 font-semibold"></div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-600 pt-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-gray-400">Сумма:</span>
+                        <span class="text-white">2,450.00 ₽</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-gray-400">Комиссия:</span>
+                        <span id="commission-amount" class="text-white">0.00 ₽</span>
+                    </div>
+                    <div class="border-t border-gray-600 pt-2 mt-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-white font-semibold">Итого:</span>
+                            <span id="total-amount" class="text-green-400 font-bold text-lg glow-text">2,450.00 ₽</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4 mt-auto">
+                <button id="pay-button" class="w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 bg-gray-600 text-gray-400 cursor-not-allowed sticky bottom-0" disabled>
+                    ВЫБЕРИТЕ СПОСОБ ОПЛАТЫ
+                </button>
+
+                <div class="flex items-center justify-center space-x-2 text-gray-400 text-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                    <span>Защищенное соединение SSL</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        const paymentMethods = [
+            {
+                id: 'mir',
+                name: 'МИР',
+                description: 'Российская карта',
+                color: 'bg-emerald-500',
+                commission: 0,
+                icon: `<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                </svg>`
+            },
+            {
+                id: 'visa',
+                name: 'VISA',
+                description: 'Банковская карта',
+                color: 'bg-blue-500',
+                commission: 2.5,
+                icon: `<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                </svg>`
+            },
+            {
+                id: 'mastercard',
+                name: 'MC',
+                description: 'Банковская карта',
+                color: 'bg-red-500',
+                commission: 2.5,
+                icon: `<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                </svg>`
+            },
+            {
+                id: 'sbp',
+                name: 'СБП',
+                description: 'Быстрые платежи',
+                color: 'bg-purple-500',
+                commission: 0,
+                icon: `<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>`
+            },
+            {
+                id: 'paypal',
+                name: 'PayPal',
+                description: 'Электронный кошелек',
+                color: 'bg-cyan-500',
+                commission: 3.5,
+                icon: `<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                </svg>`
+            },
+            {
+                id: 'crypto',
+                name: 'Crypto',
+                description: 'Криптовалюта',
+                color: 'bg-orange-500',
+                commission: 1,
+                icon: `<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                </svg>`
+            },
+            {
+                id: 'webmoney',
+                name: 'WMZ',
+                description: 'WebMoney',
+                color: 'bg-teal-500',
+                commission: 2,
+                icon: `<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                </svg>`
+            },
+            {
+                id: 'qiwi',
+                name: 'QIWI',
+                description: 'Кошелек',
+                color: 'bg-yellow-500',
+                commission: 1.5,
+                icon: `<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                </svg>`
+            }
+        ];
+
+        let selectedMethod = null;
+        const baseAmount = 2450;
+
+        function generatePaymentId() {
+            const timestamp = Date.now().toString(36);
+            const random = Math.random().toString(36).substr(2, 5);
+            return `PAY-${timestamp}-${random}`.toUpperCase();
+        }
+
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleTimeString();
+            document.getElementById('current-date').textContent = now.toLocaleDateString();
+        }
+
+        function createPaymentMethods() {
+            const container = document.getElementById('payment-methods');
+            container.innerHTML = '';
+            
+            paymentMethods.forEach(method => {
+                const button = document.createElement('button');
+                button.className = `payment-method relative p-4 rounded-xl border-2 border-gray-600 bg-gray-700 hover:border-gray-500 transition-all duration-300`;
+                button.innerHTML = `
+                    <div class="w-12 h-12 rounded-lg ${method.color} flex items-center justify-center mb-3 mx-auto">
+                        ${method.icon}
+                    </div>
+                    <div class="text-center">
+                        <div class="text-white font-semibold text-sm">${method.name}</div>
+                        <div class="text-gray-400 text-xs">${method.description}</div>
+                        <div class="text-green-400 text-xs font-semibold mt-1">
+                            ${method.commission}%
+                        </div>
+                    </div>
+                `;
+                
+                button.addEventListener('click', () => selectPaymentMethod(method));
+                container.appendChild(button);
+            });
+        }
+
+        function selectPaymentMethod(method) {
+            selectedMethod = method;
+            
+            document.querySelectorAll('.payment-method').forEach(btn => {
+                btn.classList.remove('selected', 'border-blue-500', 'bg-blue-500/20');
+                btn.classList.add('border-gray-600', 'bg-gray-700');
+                
+                const existingCheck = btn.querySelector('.check-icon');
+                if (existingCheck) {
+                    existingCheck.remove();
+                }
+            });
+            
+            const selectedButton = document.querySelectorAll('.payment-method')[paymentMethods.indexOf(method)];
+            selectedButton.classList.add('selected', 'border-blue-500', 'bg-blue-500/20');
+            selectedButton.classList.remove('border-gray-600', 'bg-gray-700');
+            
+            const icon = document.createElement('div');
+            icon.className = 'check-icon absolute top-2 right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center pulse-ring';
+            icon.innerHTML = `<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>`;
+            selectedButton.appendChild(icon);
+            
+            showPaymentDetails(method);
+            
+            const payButton = document.getElementById('pay-button');
+            payButton.disabled = false;
+            payButton.className = 'w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700';
+            payButton.textContent = 'ОПЛАТИТЬ';
+        }
+
+        function showPaymentDetails(method) {
+            const details = document.getElementById('payment-details');
+            details.classList.remove('hidden');
+            
+            const icon = document.getElementById('selected-icon');
+            icon.className = `w-10 h-10 rounded-lg ${method.color} flex items-center justify-center`;
+            icon.innerHTML = method.icon;
+            
+            document.getElementById('selected-name').textContent = method.name;
+            document.getElementById('selected-desc').textContent = method.description;
+            document.getElementById('selected-commission').textContent = `${method.commission}%`;
+            
+            const commissionAmount = (baseAmount * method.commission / 100);
+            const totalAmount = baseAmount + commissionAmount;
+            
+            document.getElementById('commission-amount').textContent = `${commissionAmount.toFixed(2)} ₽`;
+            document.getElementById('total-amount').textContent = `${totalAmount.toFixed(2)} ₽`;
+        }
+
+        function processPayment() {
+            const button = document.getElementById('pay-button');
+            button.disabled = true;
+            button.innerHTML = `
+                <div class="flex items-center justify-center space-x-2">
+                    <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full loading-spinner"></div>
+                    <span>Обработка платежа...</span>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                alert('Платеж успешно обработан!');
+                selectedMethod = null;
+                document.getElementById('payment-details').classList.add('hidden');
+                
+                document.querySelectorAll('.payment-method').forEach(btn => {
+                    btn.classList.remove('selected', 'border-blue-500', 'bg-blue-500/20');
+                    btn.classList.add('border-gray-600', 'bg-gray-700');
+                    
+                    const checkIcon = btn.querySelector('.check-icon');
+                    if (checkIcon) {
+                        checkIcon.remove();
+                    }
+                });
+                
+                button.disabled = true;
+                button.className = 'w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 bg-gray-600 text-gray-400 cursor-not-allowed';
+                button.textContent = 'ВЫБЕРИТЕ СПОСОБ ОПЛАТЫ';
+            }, 2000);
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('payment-id').textContent = generatePaymentId();
+            updateTime();
+            setInterval(updateTime, 1000);
+            createPaymentMethods();
+            
+            document.getElementById('pay-button').addEventListener('click', processPayment);
+        });
+    </script>
+</body>
+</html>
