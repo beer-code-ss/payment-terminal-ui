@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/092adad8-9ad6-4006-a733-4dcc667d1048)# Payment Terminal UI
+# Payment Terminal UI
 
 💳 A clean and modern payment terminal interface built with Tailwind CSS and vanilla HTML/JS.
 
